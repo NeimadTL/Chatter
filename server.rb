@@ -9,12 +9,12 @@ class Server
 
   def start
     puts 'Server started...'
-    loop do
-      @client = @server_socket.accept   # Wait for a client to connect
-      self.read_message_from_client
-      self.send_message_to_client("Hello client !")
-      @client.close
-    end
+    @client = @server_socket.accept   # Wait for a client to connect
+    self.read_message_from_client
+    self.send_message_to_client("Hello client !")
+    self.read_message_from_client
+    self.send_message_to_client("you're welcome")
+    @client.close
   end
 
   def send_message_to_client(message)
@@ -22,6 +22,7 @@ class Server
   end
 
   def read_message_from_client
+    puts "Client is typing in..."
     puts @client.gets
   end
 
@@ -29,16 +30,6 @@ class Server
     @server_socket.close
   end
 end
-
-# puts 'Server started...'
-# server = TCPServer.new 2000 # Server bound to port 2000
-# loop do
-#   client = server.accept    # Wait for a client to connect
-#   puts client.gets
-#   client.puts "Hello client !"
-#   client.close
-# end
-
 
 server = Server.new(2000)
 server.start
