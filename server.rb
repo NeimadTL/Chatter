@@ -9,12 +9,14 @@ class Server
 
   def start
     puts 'Server started...'
-    @client = @server_socket.accept   # Wait for a client to connect
-    self.read_message_from_client
-    self.send_message_to_client("Hello client !")
-    self.read_message_from_client
-    self.send_message_to_client("you're welcome")
-    @client.close
+    loop do
+      @client = @server_socket.accept   # Wait for a client to connect
+      self.read_message_from_client
+      self.send_message_to_client("Hello client !")
+      self.read_message_from_client
+      self.send_message_to_client("you're welcome")
+      @client.close
+    end
   end
 
   def send_message_to_client(message)

@@ -25,7 +25,7 @@ end
 client = Client.new('localhost', 2000)
 client.send_message("Hey server, I'm trying to connect")
 client.read_message
-client.send_message("Thanks for letting me me, appreciate that.")
+client.send_message("Thanks for letting me in, appreciate that.")
 client.read_message
 client.close_connection
 
