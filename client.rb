@@ -28,3 +28,11 @@ client.read_message
 client.send_message("Thanks for letting me me, appreciate that.")
 client.read_message
 client.close_connection
+
+
+client = Client.new('localhost', 2000)
+client.send_message("Yo bruh, let me in !")
+client.read_message
+client.send_message("Thanks brother")
+client.read_message
+client.close_connection
