@@ -1,6 +1,7 @@
 require 'socket'
 
 class Client
+  attr_reader :tcp_socket
   def initialize(hostname, port)
     @hostname = hostname
     @port = port
@@ -13,7 +14,7 @@ class Client
 
   def read_message
     puts "Server is typing in..."
-    puts @tcp_socket.gets   # Read lines from socket
+    @tcp_socket.gets   # Read lines from socket
   end
 
   def close_connection
@@ -22,17 +23,28 @@ class Client
 end
 
 
-client = Client.new('localhost', 2000)
-client.send_message("Hey server, I'm trying to connect")
-client.read_message
-client.send_message("Thanks for letting me in, appreciate that.")
-client.read_message
-client.close_connection
+client_1 = Client.new('localhost', 2000)
+client_1.send_message("Hey server, I'm client #1")
+client_1.send_message("2")
+client_1.send_message("Yo")
 
 
-client = Client.new('localhost', 2000)
-client.send_message("Yo bruh, let me in !")
-client.read_message
-client.send_message("Thanks brother")
-client.read_message
-client.close_connection
+client_2 = Client.new('localhost', 2000)
+client_2.send_message("Hey server, I'm client #2")
+puts "client_2 has received : #{client_2.read_message}"
+
+puts "client_1 client side #{client_1.tcp_socket.inspect}"
+puts "client_1 client side #{client_2.tcp_socket.inspect}"
+
+
+
+
+# client.send_message("Thanks for letting me in, appreciate that.")
+# client.read_message
+# client.close_connection
+#
+#
+# client.read_message
+# client.send_message("Thanks brother")
+# client.read_message
+# client.close_connection
