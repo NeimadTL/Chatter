@@ -8,6 +8,10 @@ class Client
     @tcp_socket = TCPSocket.new(hostname, port)
   end
 
+  def self.client_for(socket)
+    Client.new('localhost', 2000)
+  end
+
   def send_message(message)
     @tcp_socket.puts(message)
   end
