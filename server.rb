@@ -1,7 +1,10 @@
 require 'socket'
-require './client'
+require './server_manager'
 
 class Server
+
+  attr_reader :clients
+
   def initialize(port)
     @port = port
     @server_socket = TCPServer.new(port) # Server bound to port 2000
@@ -10,43 +13,40 @@ class Server
 
   def start
     puts 'Server started...'
+
     loop do
-
+      ServerManager.manage(self)
       socket = @server_socket.accept   # Wait for a client to connect
-      # I don't like that but it's the only I found so far
-      client = Client.client_for(socket)
-
-
-      @clients.push(client)
+      @clients.push(socket)
 
       if clients_count == 2
         break
       end
     end
-    puts "clients count -> #{self.clients_count}"
+    # puts "clients count -> #{self.clients_count}"
 
 
-    client_1 = @clients[0]
-    client_2 = @clients[1]
-    puts "Client 1 is typing in..."
-    first_message = read_message_of(client_1)
-    puts "first_message : #{first_message}"
-    second_message = read_message_of(client_1)
-    puts "second_message : #{second_message}"
-    last_message = read_message_of(client_1)
-    puts "last_message to send : #{last_message}"
-    puts "Client 1 has done...\n\n"
-
-    puts "Client 2 is typing in..."
-    puts "first message of client_2 : #{read_message_of(client_2)}"
-    puts "Client 2 has done..."
-
-    puts "client_1 #{client_1.tcp_socket.inspect}"
-    puts "client_2 #{client_2.tcp_socket.inspect}"
-    if second_message.chomp.eql?('2')
-      puts "sending the message to client_2 "
-      send_message_to(last_message, client_2)
-    end
+    # client_1 = @clients[0]
+    # client_2 = @clients[1]
+    # puts "Client 1 is typing in..."
+    # first_message = read_message_of(client_1)
+    # puts "first_message : #{first_message}"
+    # second_message = read_message_of(client_1)
+    # puts "second_message : #{second_message}"
+    # last_message = read_message_of(client_1)
+    # puts "last_message to send : #{last_message}"
+    # puts "Client 1 has done...\n\n"
+    #
+    # puts "Client 2 is typing in..."
+    # puts "first message of client_2 : #{read_message_of(client_2)}"
+    # puts "Client 2 has done..."
+    #
+    # puts "client_1 #{client_1.tcp_socket.inspect}"
+    # puts "client_2 #{client_2.tcp_socket.inspect}"
+    # if second_message.chomp.eql?('2')
+    #   puts "sending the message to client_2 "
+    #   send_message_to(last_message, client_2)
+    # end
 
 
 
@@ -75,11 +75,11 @@ class Server
   end
 
   def send_message_to(message, client)
-    client.tcp_socket.puts(message)
+    client.puts(message)
   end
 
   def read_message_of(client)
-    client.tcp_socket.gets
+    client.gets
   end
 
   def stop
