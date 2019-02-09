@@ -15,7 +15,7 @@ class Client
 
   def send_message(message, client)
     @tcp_socket.puts(message)
-    ServerManager.notify_message_for(self, client)
+    ServerManager.instance.notify_message_for(self, client) 
   end
 
   def read_message

@@ -15,7 +15,7 @@ class Server
     puts 'Server started...'
 
     loop do
-      ServerManager.manage(self)
+      ServerManager.instance.manage(self)
       socket = @server_socket.accept   # Wait for a client to connect
       @clients.push(socket)
 

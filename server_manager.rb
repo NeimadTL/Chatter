@@ -1,31 +1,43 @@
+require 'Singleton'
+
 class ServerManager
+  include Singleton
 
-  # @@server_instance = nil
+  # attr_reader :server
+  # attr_writer :server
 
+  @server = nil
+  # def initialize
+  #
+  #   puts "initialize got called"
+  # end
 
-  # def self.server_instance
-  #   @@server_instance
+  attr_accessor :server
+
+  # def initialize
+  #   @server
+  # end
+
+  # def server
+  #   @server
   # end
   #
-  # def self.server_instance=(server)
+  # def server=(server)
   #   puts "set"
-  #   @@server_instance = server
-  #   puts "set server -> #{server}"
-  #   puts "set @@server_instance -> #{@@server_instance}"
+  #   @server = server
   # end
 
-  attr_accessor :server_instance
-
-  def self.manage(server)
-    server_instance = server
-    puts "server clients -> #{server_instance.clients}"
+  def manage(server)
+    self.server = server
+    puts "server param -> #{server.clients}"
+    puts "server_instance -> #{self.server.clients}"
   end
 
-  def self.notify_message_for(from_who, to_who)
+  def notify_message_for(from_who, to_who)
     puts "from_who -> #{from_who.inspect}"
     puts "to_who -> #{to_who.inspect}"
 
-    puts " @server ->#{@@server_instance.inspect}"
+    puts " @server ->#{server.inspect}"
     # message = @server.read_message_of(from_who)
     # @server.send_message_to(to_who)
   end
